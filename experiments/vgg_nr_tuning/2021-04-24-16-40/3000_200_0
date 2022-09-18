@@ -1,0 +1,108 @@
+../../../main.py --replay=naive-rehearsal --time --scenario=task --experiment=splitCKPLUS --tasks=4 --network=cnn --iters=3000 --lr=0.001 --batch=32 --latent-size=4096 --buffer-size=200 --vgg-root --seed=2924
+RAM AT BEGINNING: 0.22407150268554688
+Latent replay turned off
+CUDA is used
+RAM BEFORE LOADING DATA: 2.1938629150390625
+
+Preparing the data...
+SPLIT RATIO: [924, 0]
+ --> ckplus: 'train'-dataset consisting of 924 samples
+ --> ckplus: 'test'-dataset consisting of 384 samples
+RAM AFTER LOADING DATA: 2.19512939453125
+RAM BEFORE CLASSIFER: 2.19512939453125
+RAM AFTER CLASSIFER: 2.26007080078125
+RAM BEFORE PRE-TRAINING 2.26007080078125
+RAM AFTER PRE-TRAINING 2.26007080078125
+RAM BEFORE GENERATOR: 2.26007080078125
+RAM AFTER DECLARING GENERATOR: 2.26007080078125
+MACs of model: 127374080
+RAM BEFORE REPORTING: 2.2657699584960938
+
+Parameter-stamp...
+ --> task:          splitCKPLUS4-task
+ --> model:         VGG_CLASSIFIER_c8
+ --> hyper-params:  i3000-lr0.001-b32-adam
+ --> replay:        naive-rehearsal
+splitCKPLUS4-task--VGG_CLASSIFIER_c8--i3000-lr0.001-b32-adam--naive-rehearsal-s2924
+
+----------------------------------------MAIN MODEL----------------------------------------
+VGGClassifier(
+  (vgg16): VGG(
+    (features): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU(inplace=True)
+      (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (3): ReLU(inplace=True)
+      (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (6): ReLU(inplace=True)
+      (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (8): ReLU(inplace=True)
+      (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (11): ReLU(inplace=True)
+      (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (13): ReLU(inplace=True)
+      (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (15): ReLU(inplace=True)
+      (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (18): ReLU(inplace=True)
+      (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (20): ReLU(inplace=True)
+      (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (22): ReLU(inplace=True)
+      (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (25): ReLU(inplace=True)
+      (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (27): ReLU(inplace=True)
+      (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (29): ReLU(inplace=True)
+      (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (avgpool): AdaptiveAvgPool2d(output_size=(7, 7))
+    (classifier): Sequential(
+      (0): Linear(in_features=25088, out_features=4096, bias=True)
+      (1): ReLU(inplace=True)
+      (2): Dropout(p=0.5, inplace=False)
+      (3): Linear(in_features=4096, out_features=4096, bias=True)
+      (4): ReLU(inplace=True)
+      (5): Dropout(p=0.5, inplace=False)
+      (6): Linear(in_features=4096, out_features=1000, bias=True)
+    )
+  )
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=4096, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 138882992 parameters (~138.9 million)
+      of which: - learnable: 525448 (~0.5 million)
+                - fixed: 138357544 (~138.4 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.2657699584960938
+CPU BEFORE TRAINING: (20.46, 7.54)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2790489196777344
+Peak mem and init mem: 3399 2365
+GPU BEFORE EVALUATION: (23.53488372093023, 1034)
+RAM BEFORE EVALUATION: 2.2790489196777344
+CPU BEFORE EVALUATION: (2121.7, 209.77)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.7092
+ - Task 2: 0.7500
+ - Task 3: 0.8741
+ - Task 4: 0.7500
+=> Average precision over all 4 tasks: 0.7708
+
+=> Total training time = 2143.2 seconds
+
+RAM AT THE END: 2.2935791015625
+CPU AT THE END: (2123.61, 209.96)

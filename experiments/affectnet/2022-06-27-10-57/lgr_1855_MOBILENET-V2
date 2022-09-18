@@ -1,0 +1,115 @@
+../../../main.py --time --scenario=task --experiment=splitAffectNet --tasks=4 --network=cnn --iters=2000 --batch=128 --lr=0.0001 --pretrained-root=MOBILENET-V2 --latent-size=1280 --replay=generative --latent-replay=on --g-fc-uni=200 --seed=1855
+RAM AT BEGINNING: 0.2612342834472656
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.2657012939453125
+
+Preparing the data...
+SPLIT RATIO: None
+ --> affectnet: 'train'-dataset consisting of 88021 samples
+ --> affectnet: 'test'-dataset consisting of 4000 samples
+RAM AFTER LOADING DATA: 0.2987785339355469
+RAM BEFORE CLASSIFER: 2.6862258911132812
+RAM AFTER CLASSIFER: 2.709259033203125
+RAM BEFORE PRE-TRAINING 2.709259033203125
+RAM AFTER PRE-TRAINING 2.709259033203125
+RAM BEFORE GENERATOR: 2.709259033203125
+RAM AFTER DECLARING GENERATOR: 2.709259033203125
+MACs of top classifier: 164864
+RAM BEFORE REPORTING: 2.713359832763672
+
+Parameter-stamp...
+ --> task:          splitAffectNet4-task
+ --> model:         MOBILENET-V2_c8
+ --> hyper-params:  i2000-lr0.0001-b128-adam
+ --> replay:        generative-VAE(MLP([1280, 200, 200])--z100-c8)
+splitAffectNet4-task--MOBILENET-V2_c8--i2000-lr0.0001-b128-adam--generative-VAE(MLP([1280, 200, 200])--z100-c8)-s1855
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=1280, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 165000 parameters (~0.2 million)
+      of which: - learnable: 165000 (~0.2 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+ROOT = MOBILENET-V2
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoderLatent(
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1280, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=200, out_features=8)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=200)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=1280)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 655788 parameters (~0.7 million)
+      of which: - learnable: 655788 (~0.7 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.713359832763672
+CPU BEFORE TRAINING: (4.94, 1.58)
+INITIALISING GPU TRACKER
+
+Training...
+TASKKKK:  1
+PEAK TRAINING RAM: 2.8009376525878906
+TASKKKK:  2
+PEAK TRAINING RAM: 2.8009376525878906
+TASKKKK:  3
+PEAK TRAINING RAM: 2.8010215759277344
+TASKKKK:  4
+PEAK TRAINING RAM: 2.8010215759277344
+Peak mem and init mem: 1604 1252
+GPU BEFORE EVALUATION: (2.5833333333333335, 352)
+RAM BEFORE EVALUATION: 2.796947479248047
+CPU BEFORE EVALUATION: (5240.96, 63.41)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.5000
+ - Task 2: 0.5000
+ - Task 3: 0.5000
+ - Task 4: 0.6090
+=> Average precision over all 4 tasks: 0.5272
+
+=> Total training time = 5150.8 seconds
+
+RAM AT THE END: 2.7998733520507812
+CPU AT THE END: (5263.21, 63.62)

@@ -1,0 +1,82 @@
+../../../../main.py --time --scenario=task --iters=500 --network=mlp --latent-size=128 --replay=naive-rehearsal --latent-replay=on --no-gpus --seed=992
+RAM AT BEGINNING: 0.2230987548828125
+Latent replay turned on
+CUDA is NOT(!!) used
+RAM BEFORE LOADING DATA: 0.22762298583984375
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.28842926025390625
+RAM BEFORE CLASSIFER: 0.2905158996582031
+RAM AFTER CLASSIFER: 0.2924346923828125
+RAM BEFORE PRE-TRAINING 0.2924346923828125
+RAM AFTER PRE-TRAINING 0.30725860595703125
+RAM BEFORE GENERATOR: 0.30725860595703125
+RAM AFTER DECLARING GENERATOR: 0.30725860595703125
+MACs of root classifier 0
+MACs of top classifier: 0
+RAM BEFORE REPORTING: 0.30725860595703125
+
+Parameter-stamp...
+ --> task:          splitMNIST5-task
+ --> model:         MLP([1024, 400, 400])_c10
+ --> hyper-params:  i500-lr0.001-b128-adam
+ --> replay:        naive-rehearsal
+splitMNIST5-task--MLP([1024, 400, 400])_c10--i500-lr0.001-b128-adam--naive-rehearsal-s992
+
+----------------------------------------TOP----------------------------------------
+TopClassifier(
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=128, out_features=10)
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 1290 parameters (~0.0 million)
+      of which: - learnable: 1290 (~0.0 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------ROOT----------------------------------------
+RootClassifier(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1024, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=128)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 461328 parameters (~0.5 million)
+      of which: - learnable: 461328 (~0.5 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 0.30725860595703125
+CPU BEFORE TRAINING: (52.94, 11.25)
+
+Training...
+PEAK TRAINING RAM: 0.3231163024902344
+RAM BEFORE EVALUATION: 0.31642913818359375
+CPU BEFORE EVALUATION: (155.28, 11.92)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.9917
+ - Task 2: 0.9964
+ - Task 3: 0.9898
+ - Task 4: 0.9915
+ - Task 5: 0.9936
+=> Average precision over all 5 tasks: 0.9926
+
+=> Total training time = 36.9 seconds
+
+RAM AT THE END: 0.31642913818359375
+CPU AT THE END: (157.38, 11.94)

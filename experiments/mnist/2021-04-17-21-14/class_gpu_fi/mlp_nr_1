@@ -1,0 +1,80 @@
+../../../../main.py --time --scenario=class --tasks=10 --iters=500 --network=mlp --latent-size=128 --replay=naive-rehearsal --pretrain-baseline --seed=3147
+RAM AT BEGINNING: 0.22377777099609375
+Latent replay turned off
+CUDA is used
+RAM BEFORE LOADING DATA: 0.2284088134765625
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.2893638610839844
+RAM BEFORE CLASSIFER: 0.2893638610839844
+RAM AFTER CLASSIFER: 2.24151611328125
+RAM BEFORE PRE-TRAINING 2.24151611328125
+RAM AFTER PRE-TRAINING 2.2553329467773438
+RAM BEFORE GENERATOR: 2.2553329467773438
+RAM AFTER DECLARING GENERATOR: 2.2553329467773438
+MACs of model: 0
+RAM BEFORE REPORTING: 2.2553329467773438
+
+Parameter-stamp...
+ --> task:          splitMNIST10-class
+ --> model:         MLP([1024, 400, 400])_c10
+ --> hyper-params:  i500-lr0.001-b128-adam
+ --> replay:        naive-rehearsal
+splitMNIST10-class--MLP([1024, 400, 400])_c10--i500-lr0.001-b128-adam--naive-rehearsal-s3147
+
+----------------------------------------MAIN MODEL----------------------------------------
+Classifier(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1024, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=128)
+      (nl): Sigmoid()
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=128, out_features=10)
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 462618 parameters (~0.5 million)
+      of which: - learnable: 1290 (~0.0 million)
+                - fixed: 461328 (~0.5 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.2553329467773438
+CPU BEFORE TRAINING: (43.17, 2.02)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.257049560546875
+Peak mem and init mem: 1073 929
+GPU BEFORE EVALUATION: (5.444444444444445, 144)
+RAM BEFORE EVALUATION: 2.257049560546875
+CPU BEFORE EVALUATION: (185.31, 4.53)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.9415
+ - Task 2: 0.9475
+ - Task 3: 0.9806
+ - Task 4: 0.9562
+ - Task 5: 0.9507
+ - Task 6: 0.8991
+ - Task 7: 0.9300
+ - Task 8: 0.8989
+ - Task 9: 0.9796
+ - Task 10: 0.9370
+=> Average precision over all 10 tasks: 0.9421
+
+=> Total training time = 88.1 seconds
+
+RAM AT THE END: 2.257110595703125
+CPU AT THE END: (187.11, 4.53)

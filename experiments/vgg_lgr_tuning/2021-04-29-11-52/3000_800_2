@@ -1,0 +1,108 @@
+../../../main.py --replay=generative --latent-replay=on --time --scenario=task --experiment=splitCKPLUS --tasks=4 --network=cnn --iters=3000 --lr=0.0001 --batch=32 --latent-size=4096 --g-fc-uni=800 --vgg-root --seed=9725
+RAM AT BEGINNING: 0.22337722778320312
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 2.1836090087890625
+
+Preparing the data...
+SPLIT RATIO: [924, 0]
+ --> ckplus: 'train'-dataset consisting of 924 samples
+ --> ckplus: 'test'-dataset consisting of 384 samples
+RAM AFTER LOADING DATA: 2.1859359741210938
+RAM BEFORE CLASSIFER: 2.1877288818359375
+RAM AFTER CLASSIFER: 2.2573394775390625
+RAM BEFORE PRE-TRAINING 2.2573394775390625
+RAM AFTER PRE-TRAINING 2.2573394775390625
+RAM BEFORE GENERATOR: 2.2573394775390625
+RAM AFTER DECLARING GENERATOR: 2.267406463623047
+MACs of top classifier: 525312
+RAM BEFORE REPORTING: 2.2717323303222656
+
+Parameter-stamp...
+ --> task:          splitCKPLUS4-task
+ --> model:         VGG_CLASSIFIER_c8
+ --> hyper-params:  i3000-lr0.0001-b32-adam
+ --> replay:        generative-VAE(MLP([4096, 800, 800])--z100-c8)
+splitCKPLUS4-task--VGG_CLASSIFIER_c8--i3000-lr0.0001-b32-adam--generative-VAE(MLP([4096, 800, 800])--z100-c8)-s9725
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=4096, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 525448 parameters (~0.5 million)
+      of which: - learnable: 525448 (~0.5 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+ROOT = VGG-16
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoderLatent(
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=4096, out_features=800)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=800, out_features=800)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=800, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=800, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=800, out_features=8)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=800)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=800, out_features=800)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=800, out_features=4096)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 8087404 parameters (~8.1 million)
+      of which: - learnable: 8087404 (~8.1 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.2717323303222656
+CPU BEFORE TRAINING: (15.92, 4.28)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2881088256835938
+Peak mem and init mem: 2885 2747
+GPU BEFORE EVALUATION: (21.42138364779874, 138)
+RAM BEFORE EVALUATION: 2.2881088256835938
+CPU BEFORE EVALUATION: (1625.93, 123.06)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.8865
+ - Task 2: 0.9206
+ - Task 3: 0.8718
+ - Task 4: 0.8846
+=> Average precision over all 4 tasks: 0.8909
+
+=> Total training time = 1584.8 seconds
+
+RAM AT THE END: 2.3046112060546875
+CPU AT THE END: (1627.25, 123.23)

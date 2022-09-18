@@ -1,0 +1,83 @@
+../../../../main.py --time --scenario=class --tasks=10 --iters=1000 --network=cnn --latent-size=128 --replay=naive-rehearsal --latent-replay=on --seed=9124
+RAM AT BEGINNING: 0.22307968139648438
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.22766494750976562
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.288665771484375
+RAM BEFORE CLASSIFER: 2.238719940185547
+RAM AFTER CLASSIFER: 2.238719940185547
+RAM BEFORE PRE-TRAINING 2.238719940185547
+RAM AFTER PRE-TRAINING 2.254852294921875
+RAM BEFORE GENERATOR: 2.254852294921875
+RAM AFTER DECLARING GENERATOR: 2.254852294921875
+MACs of root classifier 262160
+MACs of top classifier: 17664
+RAM BEFORE REPORTING: 2.254852294921875
+
+Parameter-stamp...
+ --> task:          splitMNIST10-class
+ --> model:         CNN_CLASSIFIER_c10
+ --> hyper-params:  i1000-lr0.001-b128-adam
+ --> replay:        naive-rehearsal
+splitMNIST10-class--CNN_CLASSIFIER_c10--i1000-lr0.001-b128-adam--naive-rehearsal-s9124
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=10, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 17802 parameters (~0.0 million)
+      of which: - learnable: 17802 (~0.0 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------ROOT----------------------------------------
+CNNRootClassifier(
+  (conv1): Conv2d(1, 5, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(5, 5, kernel_size=(5, 5), stride=(1, 1))
+  (dropout1): Dropout(p=0.25, inplace=False)
+  (fc0): Linear(in_features=720, out_features=128, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 93048 parameters (~0.1 million)
+      of which: - learnable: 93048 (~0.1 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.254852294921875
+CPU BEFORE TRAINING: (46.48, 2.27)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2578048706054688
+Peak mem and init mem: 969 951
+GPU BEFORE EVALUATION: (5.7894736842105265, 18)
+RAM BEFORE EVALUATION: 2.2578048706054688
+CPU BEFORE EVALUATION: (333.62, 7.29)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.9341
+ - Task 2: 0.9824
+ - Task 3: 0.8979
+ - Task 4: 0.9208
+ - Task 5: 0.9543
+ - Task 6: 0.9653
+ - Task 7: 0.9179
+ - Task 8: 0.9520
+ - Task 9: 0.9745
+ - Task 10: 0.9776
+=> Average precision over all 10 tasks: 0.9477
+
+=> Total training time = 181.3 seconds
+
+RAM AT THE END: 2.2579612731933594
+CPU AT THE END: (335.37, 7.31)

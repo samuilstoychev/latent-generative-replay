@@ -1,0 +1,1 @@
+../../../main.py --replay=generative --latent-replay=on --time --scenario=task --experiment=splitCKPLUS --tasks=4 --network=cnn --iters=1000 --lr=0.001 --batch=32 --latent-size=4096 --g-fc-uni=200 --vgg-root --seed=3061

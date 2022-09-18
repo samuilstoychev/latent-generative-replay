@@ -1,0 +1,116 @@
+../../../main.py --time --scenario=task --experiment=splitRAFDB --tasks=4 --network=cnn --iters=2000 --batch=128 --lr=0.0001 --pretrained-root=ALEXNET --latent-size=4096 --replay=generative --latent-replay=on --g-fc-uni=200 --seed=6618
+RAM AT BEGINNING: 0.2607421875
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.26502227783203125
+
+Preparing the data...
+SPLIT RATIO: None
+ --> rafdb: 'train'-dataset consisting of 12271 samples
+ --> rafdb: 'test'-dataset consisting of 3068 samples
+[[0, 1], [2, 3], [4, 5], [6, 7]]
+RAM AFTER LOADING DATA: 0.2692832946777344
+RAM BEFORE CLASSIFER: 2.6680831909179688
+RAM AFTER CLASSIFER: 2.702472686767578
+RAM BEFORE PRE-TRAINING 2.702472686767578
+RAM AFTER PRE-TRAINING 2.702472686767578
+RAM BEFORE GENERATOR: 2.702472686767578
+RAM AFTER DECLARING GENERATOR: 2.702472686767578
+MACs of top classifier: 525312
+RAM BEFORE REPORTING: 2.7071762084960938
+
+Parameter-stamp...
+ --> task:          splitRAFDB4-task
+ --> model:         ALEXNET_c8
+ --> hyper-params:  i2000-lr0.0001-b128-adam
+ --> replay:        generative-VAE(MLP([4096, 200, 200])--z100-c8)
+splitRAFDB4-task--ALEXNET_c8--i2000-lr0.0001-b128-adam--generative-VAE(MLP([4096, 200, 200])--z100-c8)-s6618
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=4096, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 525448 parameters (~0.5 million)
+      of which: - learnable: 525448 (~0.5 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+ROOT = ALEXNET
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoderLatent(
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=4096, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=200, out_features=8)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=200)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=4096)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 1785004 parameters (~1.8 million)
+      of which: - learnable: 1785004 (~1.8 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.7071762084960938
+CPU BEFORE TRAINING: (4.64, 2.01)
+INITIALISING GPU TRACKER
+
+Training...
+TASKKKK:  1
+PEAK TRAINING RAM: 2.733245849609375
+TASKKKK:  2
+PEAK TRAINING RAM: 2.7332534790039062
+TASKKKK:  3
+PEAK TRAINING RAM: 2.733379364013672
+TASKKKK:  4
+PEAK TRAINING RAM: 2.733440399169922
+Peak mem and init mem: 1542 1530
+GPU BEFORE EVALUATION: (7.209302325581396, 12)
+RAM BEFORE EVALUATION: 2.7334136962890625
+CPU BEFORE EVALUATION: (793.11, 61.89)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.8076
+ - Task 2: 0.8034
+ - Task 3: 0.7583
+ - Task 4: 1.0000
+=> Average precision over all 4 tasks: 0.8423
+
+=> Total training time = 860.1 seconds
+
+RAM AT THE END: 2.7334136962890625
+CPU AT THE END: (795.36, 62.12)

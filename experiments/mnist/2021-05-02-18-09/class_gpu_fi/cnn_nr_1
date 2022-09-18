@@ -1,0 +1,73 @@
+../../../../main.py --time --scenario=class --tasks=10 --iters=1000 --network=cnn --latent-size=128 --replay=naive-rehearsal --pretrain-baseline --seed=6336
+RAM AT BEGINNING: 0.22356033325195312
+Latent replay turned off
+CUDA is used
+RAM BEFORE LOADING DATA: 0.22813796997070312
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.289306640625
+RAM BEFORE CLASSIFER: 0.289306640625
+RAM AFTER CLASSIFER: 2.239665985107422
+RAM BEFORE PRE-TRAINING 2.239665985107422
+RAM AFTER PRE-TRAINING 2.255634307861328
+RAM BEFORE GENERATOR: 2.255634307861328
+RAM AFTER DECLARING GENERATOR: 2.255634307861328
+MACs of model: 279824
+RAM BEFORE REPORTING: 2.2558822631835938
+
+Parameter-stamp...
+ --> task:          splitMNIST10-class
+ --> model:         CNN_CLASSIFIER_c10
+ --> hyper-params:  i1000-lr0.001-b128-adam
+ --> replay:        naive-rehearsal
+splitMNIST10-class--CNN_CLASSIFIER_c10--i1000-lr0.001-b128-adam--naive-rehearsal-s6336
+
+----------------------------------------MAIN MODEL----------------------------------------
+CNNClassifier(
+  (conv1): Conv2d(1, 5, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(5, 5, kernel_size=(5, 5), stride=(1, 1))
+  (dropout1): Dropout(p=0.25, inplace=False)
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc0): Linear(in_features=720, out_features=128, bias=True)
+  (fc1): Linear(in_features=128, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=10, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 110850 parameters (~0.1 million)
+      of which: - learnable: 17802 (~0.0 million)
+                - fixed: 93048 (~0.1 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.2558822631835938
+CPU BEFORE TRAINING: (45.96, 2.02)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2599525451660156
+Peak mem and init mem: 1091 951
+GPU BEFORE EVALUATION: (8.61111111111111, 140)
+RAM BEFORE EVALUATION: 2.2599525451660156
+CPU BEFORE EVALUATION: (330.61, 7.16)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.9791
+ - Task 2: 0.9771
+ - Task 3: 0.9684
+ - Task 4: 0.9487
+ - Task 5: 0.9630
+ - Task 6: 0.9806
+ - Task 7: 0.9280
+ - Task 8: 0.9653
+ - Task 9: 0.9475
+ - Task 10: 0.9777
+=> Average precision over all 10 tasks: 0.9635
+
+=> Total training time = 178.9 seconds
+
+RAM AT THE END: 2.2599525451660156
+CPU AT THE END: (332.32, 7.16)

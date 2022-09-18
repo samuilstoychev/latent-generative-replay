@@ -1,0 +1,134 @@
+../../../../main.py --time --scenario=class --tasks=10 --iters=500 --network=mlp --latent-size=128 --replay=generative --latent-replay=on --g-fc-uni=128 --seed=3546
+RAM AT BEGINNING: 0.2232513427734375
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.227630615234375
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.28887176513671875
+RAM BEFORE CLASSIFER: 2.2401580810546875
+RAM AFTER CLASSIFER: 2.2401580810546875
+RAM BEFORE PRE-TRAINING 2.2401580810546875
+RAM AFTER PRE-TRAINING 2.253490447998047
+RAM BEFORE GENERATOR: 2.253490447998047
+RAM AFTER DECLARING GENERATOR: 2.253490447998047
+MACs of root classifier 0
+MACs of top classifier: 0
+RAM BEFORE REPORTING: 2.253490447998047
+
+Parameter-stamp...
+ --> task:          splitMNIST10-class
+ --> model:         MLP([1024, 400, 400])_c10
+ --> hyper-params:  i500-lr0.001-b128-adam
+ --> replay:        generative-VAE(MLP([128, 128, 128])--z100-c10)
+splitMNIST10-class--MLP([1024, 400, 400])_c10--i500-lr0.001-b128-adam--generative-VAE(MLP([128, 128, 128])--z100-c10)-s3546
+
+----------------------------------------TOP----------------------------------------
+TopClassifier(
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=128, out_features=10)
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 1290 parameters (~0.0 million)
+      of which: - learnable: 1290 (~0.0 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------ROOT----------------------------------------
+RootClassifier(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1024, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=128)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 461328 parameters (~0.5 million)
+      of which: - learnable: 461328 (~0.5 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoderLatent(
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=128)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=128)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=128, out_features=10)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=128)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=128)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=128, out_features=128)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 105966 parameters (~0.1 million)
+      of which: - learnable: 105966 (~0.1 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.253490447998047
+CPU BEFORE TRAINING: (43.31, 2.68)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2559127807617188
+Peak mem and init mem: 935 929
+GPU BEFORE EVALUATION: (9.916666666666666, 6)
+RAM BEFORE EVALUATION: 2.2559127807617188
+CPU BEFORE EVALUATION: (213.45, 5.4)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.8782
+ - Task 2: 0.9867
+ - Task 3: 0.9572
+ - Task 4: 0.9428
+ - Task 5: 0.9353
+ - Task 6: 0.9582
+ - Task 7: 0.9660
+ - Task 8: 0.9207
+ - Task 9: 0.9885
+ - Task 10: 0.9406
+=> Average precision over all 10 tasks: 0.9474
+
+=> Total training time = 113.0 seconds
+
+RAM AT THE END: 2.2560958862304688
+CPU AT THE END: (215.18, 5.42)

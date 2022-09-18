@@ -1,0 +1,71 @@
+../../../main.py --time --scenario=task --experiment=splitAffectNet --tasks=4 --network=cnn --iters=2000 --batch=128 --lr=0.0001 --pretrained-root=MOBILENET-V2 --latent-size=1280 --replay=naive-rehearsal --latent-replay=on --buffer-size=1000 --seed=5915
+RAM AT BEGINNING: 0.26119232177734375
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.26549530029296875
+
+Preparing the data...
+SPLIT RATIO: None
+ --> affectnet: 'train'-dataset consisting of 88021 samples
+ --> affectnet: 'test'-dataset consisting of 4000 samples
+RAM AFTER LOADING DATA: 0.2987251281738281
+RAM BEFORE CLASSIFER: 2.684650421142578
+RAM AFTER CLASSIFER: 2.709136962890625
+RAM BEFORE PRE-TRAINING 2.709136962890625
+RAM AFTER PRE-TRAINING 2.709136962890625
+RAM BEFORE GENERATOR: 2.709136962890625
+RAM AFTER DECLARING GENERATOR: 2.709136962890625
+MACs of top classifier: 164864
+RAM BEFORE REPORTING: 2.716278076171875
+
+Parameter-stamp...
+ --> task:          splitAffectNet4-task
+ --> model:         MOBILENET-V2_c8
+ --> hyper-params:  i2000-lr0.0001-b128-adam
+ --> replay:        naive-rehearsal
+splitAffectNet4-task--MOBILENET-V2_c8--i2000-lr0.0001-b128-adam--naive-rehearsal-s5915
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=1280, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 165000 parameters (~0.2 million)
+      of which: - learnable: 165000 (~0.2 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+ROOT = MOBILENET-V2
+RAM BEFORE TRAINING: 2.716278076171875
+CPU BEFORE TRAINING: (4.93, 1.71)
+INITIALISING GPU TRACKER
+
+Training...
+TASKKKK:  1
+PEAK TRAINING RAM: 3.0453224182128906
+TASKKKK:  2
+PEAK TRAINING RAM: 3.0453224182128906
+TASKKKK:  3
+PEAK TRAINING RAM: 3.0453224182128906
+TASKKKK:  4
+PEAK TRAINING RAM: 3.0459861755371094
+Peak mem and init mem: 1674 1248
+GPU BEFORE EVALUATION: (2.6032719836400817, 426)
+RAM BEFORE EVALUATION: 3.030364990234375
+CPU BEFORE EVALUATION: (4981.72, 59.76)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.6470
+ - Task 2: 0.6120
+ - Task 3: 0.5690
+ - Task 4: 0.6300
+=> Average precision over all 4 tasks: 0.6145
+
+=> Total training time = 4889.7 seconds
+
+RAM AT THE END: 3.0448379516601562
+CPU AT THE END: (5003.0, 60.03)

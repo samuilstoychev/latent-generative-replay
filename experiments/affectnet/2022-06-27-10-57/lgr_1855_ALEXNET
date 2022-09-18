@@ -1,0 +1,115 @@
+../../../main.py --time --scenario=task --experiment=splitAffectNet --tasks=4 --network=cnn --iters=2000 --batch=128 --lr=0.0001 --pretrained-root=ALEXNET --latent-size=4096 --replay=generative --latent-replay=on --g-fc-uni=200 --seed=1855
+RAM AT BEGINNING: 0.25951385498046875
+Latent replay turned on
+CUDA is used
+RAM BEFORE LOADING DATA: 0.2637062072753906
+
+Preparing the data...
+SPLIT RATIO: None
+ --> affectnet: 'train'-dataset consisting of 88021 samples
+ --> affectnet: 'test'-dataset consisting of 4000 samples
+RAM AFTER LOADING DATA: 0.296844482421875
+RAM BEFORE CLASSIFER: 2.6818008422851562
+RAM AFTER CLASSIFER: 2.7297134399414062
+RAM BEFORE PRE-TRAINING 2.7297134399414062
+RAM AFTER PRE-TRAINING 2.7297134399414062
+RAM BEFORE GENERATOR: 2.7297134399414062
+RAM AFTER DECLARING GENERATOR: 2.7297134399414062
+MACs of top classifier: 525312
+RAM BEFORE REPORTING: 2.7344512939453125
+
+Parameter-stamp...
+ --> task:          splitAffectNet4-task
+ --> model:         ALEXNET_c8
+ --> hyper-params:  i2000-lr0.0001-b128-adam
+ --> replay:        generative-VAE(MLP([4096, 200, 200])--z100-c8)
+splitAffectNet4-task--ALEXNET_c8--i2000-lr0.0001-b128-adam--generative-VAE(MLP([4096, 200, 200])--z100-c8)-s1855
+
+----------------------------------------TOP----------------------------------------
+CNNTopClassifier(
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=4096, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 525448 parameters (~0.5 million)
+      of which: - learnable: 525448 (~0.5 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+ROOT = ALEXNET
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoderLatent(
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=4096, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=200, out_features=8)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=200)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=200)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=200, out_features=4096)
+      (nl): Sigmoid()
+    )
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 1785004 parameters (~1.8 million)
+      of which: - learnable: 1785004 (~1.8 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.7344512939453125
+CPU BEFORE TRAINING: (5.11, 1.91)
+INITIALISING GPU TRACKER
+
+Training...
+TASKKKK:  1
+PEAK TRAINING RAM: 2.7954978942871094
+TASKKKK:  2
+PEAK TRAINING RAM: 2.7955894470214844
+TASKKKK:  3
+PEAK TRAINING RAM: 2.795757293701172
+TASKKKK:  4
+PEAK TRAINING RAM: 2.795757293701172
+Peak mem and init mem: 1542 1530
+GPU BEFORE EVALUATION: (1.2344398340248963, 12)
+RAM BEFORE EVALUATION: 2.7930030822753906
+CPU BEFORE EVALUATION: (4917.49, 49.62)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.5860
+ - Task 2: 0.5840
+ - Task 3: 0.6470
+ - Task 4: 0.6900
+=> Average precision over all 4 tasks: 0.6267
+
+=> Total training time = 4816.6 seconds
+
+RAM AT THE END: 2.7959136962890625
+CPU AT THE END: (4937.61, 49.79)

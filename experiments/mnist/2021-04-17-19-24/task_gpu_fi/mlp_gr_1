@@ -1,0 +1,121 @@
+../../../../main.py --time --scenario=task --iters=500 --network=mlp --latent-size=128 --replay=generative --pretrain-baseline --seed=2422
+RAM AT BEGINNING: 0.22348403930664062
+Latent replay turned off
+CUDA is used
+RAM BEFORE LOADING DATA: 0.22803115844726562
+
+Preparing the data...
+SPLIT RATIO: [50000, 10000]
+ --> mnist: 'train'-dataset consisting of 60000 samples
+ --> mnist: 'test'-dataset consisting of 10000 samples
+RAM AFTER LOADING DATA: 0.28908538818359375
+RAM BEFORE CLASSIFER: 0.28908538818359375
+RAM AFTER CLASSIFER: 2.2379150390625
+RAM BEFORE PRE-TRAINING 2.2379150390625
+RAM AFTER PRE-TRAINING 2.2537574768066406
+RAM BEFORE GENERATOR: 2.2537574768066406
+RAM AFTER DECLARING GENERATOR: 2.2565231323242188
+MACs of model: 0
+RAM BEFORE REPORTING: 2.2565231323242188
+
+Parameter-stamp...
+ --> task:          splitMNIST5-task
+ --> model:         MLP([1024, 400, 400])_c10
+ --> hyper-params:  i500-lr0.001-b128-adam
+ --> replay:        generative-VAE(MLP([1024, 400, 400])--z100-c10)
+splitMNIST5-task--MLP([1024, 400, 400])_c10--i500-lr0.001-b128-adam--generative-VAE(MLP([1024, 400, 400])--z100-c10)-s2422
+
+----------------------------------------MAIN MODEL----------------------------------------
+Classifier(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1024, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=128)
+      (nl): Sigmoid()
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=128, out_features=10)
+  )
+)
+------------------------------------------------------------------------------------------
+--> this network has 462618 parameters (~0.5 million)
+      of which: - learnable: 1290 (~0.0 million)
+                - fixed: 461328 (~0.5 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoder(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1024, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=400)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=400, out_features=10)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=400)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=400)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=400, out_features=1024)
+      (nl): Sigmoid()
+    )
+  )
+  (to_image): Reshape(channels = 1)
+)
+------------------------------------------------------------------------------------------
+--> this network has 1265934 parameters (~1.3 million)
+      of which: - learnable: 1265934 (~1.3 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.2565231323242188
+CPU BEFORE TRAINING: (26.62, 2.57)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.2590408325195312
+Peak mem and init mem: 991 931
+GPU BEFORE EVALUATION: (15.0, 60)
+RAM BEFORE EVALUATION: 2.2590408325195312
+CPU BEFORE EVALUATION: (111.84, 3.85)
+
+
+EVALUATION RESULTS:
+
+ Precision on test-set:
+ - Task 1: 0.9912
+ - Task 2: 0.9804
+ - Task 3: 0.9969
+ - Task 4: 0.9913
+ - Task 5: 0.9986
+=> Average precision over all 5 tasks: 0.9917
+
+=> Total training time = 56.9 seconds
+
+RAM AT THE END: 2.2591476440429688
+CPU AT THE END: (113.54, 3.86)

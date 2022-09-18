@@ -1,0 +1,137 @@
+../../../main.py --time --scenario=task --experiment=splitCKPLUS --tasks=4 --network=cnn --iters=2000 --batch=32 --lr=0.0001 --pretrained-root=ALEXNET --latent-size=4096 --replay=generative --g-fc-uni=1600 --distill --seed=9345
+RAM AT BEGINNING: 0.26065826416015625
+Latent replay turned off
+CUDA is used
+RAM BEFORE LOADING DATA: 0.26503753662109375
+
+Preparing the data...
+SPLIT RATIO: None
+ --> ckplus: 'train'-dataset consisting of 1043 samples
+ --> ckplus: 'test'-dataset consisting of 264 samples
+RAM AFTER LOADING DATA: 0.2658424377441406
+RAM BEFORE CLASSIFER: 0.2658424377441406
+RAM AFTER CLASSIFER: 2.6533546447753906
+RAM BEFORE PRE-TRAINING 2.6533546447753906
+RAM AFTER PRE-TRAINING 2.6533546447753906
+RAM BEFORE GENERATOR: 2.6533546447753906
+RAM AFTER DECLARING GENERATOR: 2.6725120544433594
+MACs of model: 43516992
+RAM BEFORE REPORTING: 2.6780929565429688
+
+Parameter-stamp...
+ --> task:          splitCKPLUS4-task
+ --> model:         ALEXNET_c8
+ --> hyper-params:  i2000-lr0.0001-b32-adam
+ --> replay:        generative-KD2.0-VAE(MLP([30000, 1600, 1600])--z100-c8)
+splitCKPLUS4-task--ALEXNET_c8--i2000-lr0.0001-b32-adam--generative-KD2.0-VAE(MLP([30000, 1600, 1600])--z100-c8)-s9345
+
+----------------------------------------MAIN MODEL----------------------------------------
+PretrainedRootClassifier(
+  (root): AlexNet(
+    (features): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2))
+      (1): ReLU(inplace=True)
+      (2): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (3): Conv2d(64, 192, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+      (4): ReLU(inplace=True)
+      (5): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (6): Conv2d(192, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (7): ReLU(inplace=True)
+      (8): Conv2d(384, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (9): ReLU(inplace=True)
+      (10): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (11): ReLU(inplace=True)
+      (12): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (avgpool): AdaptiveAvgPool2d(output_size=(6, 6))
+    (classifier): Sequential(
+      (0): Dropout(p=0.5, inplace=False)
+      (1): Linear(in_features=9216, out_features=4096, bias=True)
+      (2): ReLU(inplace=True)
+      (3): Dropout(p=0.5, inplace=False)
+      (4): Linear(in_features=4096, out_features=4096, bias=True)
+      (5): ReLU(inplace=True)
+      (6): Linear(in_features=4096, out_features=1000, bias=True)
+    )
+  )
+  (dropout2): Dropout(p=0.5, inplace=False)
+  (fc1): Linear(in_features=4096, out_features=128, bias=True)
+  (fc2): Linear(in_features=128, out_features=8, bias=True)
+)
+------------------------------------------------------------------------------------------
+--> this network has 61626288 parameters (~61.6 million)
+      of which: - learnable: 525448 (~0.5 million)
+                - fixed: 61100840 (~61.1 million)
+------------------------------------------------------------------------------------------
+
+----------------------------------------GENERATOR----------------------------------------
+AutoEncoder(
+  (flatten): Flatten()
+  (fcE): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=30000, out_features=1600)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=1600, out_features=1600)
+      (nl): ReLU()
+    )
+  )
+  (toZ): fc_layer_split(
+    (mean): fc_layer(
+      (linear): LinearExcitability(in_features=1600, out_features=100)
+    )
+    (logvar): fc_layer(
+      (linear): LinearExcitability(in_features=1600, out_features=100)
+    )
+  )
+  (classifier): fc_layer(
+    (linear): LinearExcitability(in_features=1600, out_features=8)
+  )
+  (fromZ): fc_layer(
+    (linear): LinearExcitability(in_features=100, out_features=1600)
+    (nl): ReLU()
+  )
+  (fcD): MLP(
+    (fcLayer1): fc_layer(
+      (linear): LinearExcitability(in_features=1600, out_features=1600)
+      (nl): ReLU()
+    )
+    (fcLayer2): fc_layer(
+      (linear): LinearExcitability(in_features=1600, out_features=30000)
+      (nl): Sigmoid()
+    )
+  )
+  (to_image): Reshape(channels = 3)
+)
+------------------------------------------------------------------------------------------
+--> this network has 101649308 parameters (~101.6 million)
+      of which: - learnable: 101649308 (~101.6 million)
+                - fixed: 0 (~0.0 million)
+------------------------------------------------------------------------------------------
+RAM BEFORE TRAINING: 2.6780929565429688
+CPU BEFORE TRAINING: (4.98, 2.15)
+INITIALISING GPU TRACKER
+
+Training...
+PEAK TRAINING RAM: 2.691619873046875
+Peak mem and init mem: 5682 1754
+GPU BEFORE EVALUATION: (25.130434782608695, 3928)
+RAM BEFORE EVALUATION: 2.6917190551757812
+CPU BEFORE EVALUATION: (944.28, 77.38)
+
+
+EVALUATION RESULTS:
+Precs:  [0.7526881720430108, 1.0, 0.9824561403508771, 0.9850746268656716]
+
+ Precision on test-set:
+ - Task 1: 0.7527
+ - Task 2: 1.0000
+ - Task 3: 0.9825
+ - Task 4: 0.9851
+=> Average precision over all 4 tasks: 0.9301
+
+=> Total training time = 912.6 seconds
+
+RAM AT THE END: 2.709095001220703
+CPU AT THE END: (945.05, 77.4)
