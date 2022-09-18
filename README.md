@@ -2,6 +2,8 @@
 
 This repository includes the code for the experiments presented in *"Latent Generative Replay for Resource-Efficient Continual Learning of Facial Expressions"* (Accepted at [FG 2023](https://fg2023.ieee-biometrics.org/))
 
+![s](https://i.ibb.co/Kx12GGL/compared-approaches-alt-gen-2.jpg)
+
 ## Acknoledgments
 
 The implementation has been adapted using the original Continual Learning repository by van de Ven et al. ([available on GitHub](https://github.com/GMvandeVen/continual-learning)). 
