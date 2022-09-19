@@ -9,7 +9,6 @@ import utils
 
 class CNNRootClassifier(ContinualLearner, Replayer):
 
-    # TODO: Do I need the `classes` argument? 
     def __init__(self, image_size, classes, latent_space, binaryCE=False, binaryCE_distill=False, AGEM=False, 
                  out_channels=5, kernel_size=5, dataset="mnist"):
         # configurations

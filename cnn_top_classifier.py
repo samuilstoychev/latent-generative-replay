@@ -48,7 +48,6 @@ class CNNTopClassifier(ContinualLearner, Replayer):
         output = F.log_softmax(x, dim=1)
         return output
 
-    # TODO: Not sure about this part of the implementation
     def feature_extractor(self, x):
         return self.forward(x)
 
