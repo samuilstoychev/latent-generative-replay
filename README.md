@@ -33,3 +33,17 @@ The other flags are documented in [the README file of van de Ven's continual lea
 ```
 ./main.py --time --scenario=task --experiment=splitCKPLUS --tasks=4 --vgg-root --network=cnn --iters=2000 --batch=32 --lr=0.0001 --latent-size=4096 --replay=generative --latent-replay=on --g-fc-uni=200 --distill
 ```
+
+## Citation 
+
+Please cite our paper in your publications if it helps your research.
+
+```
+@inproceedings{Stoychev2023LGR, 
+	author={Stoychev, Samuil and Churamani, Nikhil and Gunes, Hatice},
+  	booktitle={2023 17th IEEE International Conference on Automatic Face and Gesture Recognition (FG))}, 
+  	title={{Latent Generative Replay for Resource-Efficient Continual Learning of Facial Expressions}}, 
+  	year={2023},
+  	pages={To Appear},
+}
+```

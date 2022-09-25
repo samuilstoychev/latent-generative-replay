@@ -14,8 +14,8 @@ import evaluate
 ramu = RAMU()
 
 def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes_per_task=None,iters=2000,batch_size=32,
-             generator=None, gen_iters=0, 
-             use_exemplars=False, add_exemplars=False, buffer_size=1000, valid_datasets=None, early_stop=False, validation=False):
+             generator=None, gen_iters=0, use_exemplars=False, add_exemplars=False, buffer_size=1000, valid_datasets=None, early_stop=False, validation=False, 
+             gen_loss_cbs=list(), loss_cbs=list()):
     '''Train a model (with a "train_a_batch" method) on multiple tasks, with replay-strategy specified by [replay_mode].
 
     [model]             <nn.Module> main model to optimize across all tasks
@@ -54,32 +54,7 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
     for task, train_dataset in enumerate(train_datasets, 1):
         prev_prec = 0.0
         peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
-        
-        # If offline replay-setting, create large database of all tasks so far
-        if replay_mode=="offline" and (not scenario=="task"):
-            train_dataset = ConcatDataset(train_datasets[:task])
-        # -but if "offline"+"task"-scenario: all tasks so far included in 'exact replay' & no current batch
-        if replay_mode=="offline" and scenario == "task":
-            Exact = True
-            previous_datasets = train_datasets
-
-        # Add exemplars (if available) to current dataset (if requested)
-        if add_exemplars and task>1:
-            target_transform = (lambda y, x=classes_per_task: y%x) if scenario=="domain" else None
-            exemplar_dataset = ExemplarDataset(model.exemplar_sets, target_transform=target_transform)
-            training_dataset = ConcatDataset([train_dataset, exemplar_dataset])
-        else:
-            training_dataset = train_dataset
-        
-        # Prepare <dicts> to store running importance estimates and param-values before update ("Synaptic Intelligence")
-        if isinstance(model, ContinualLearner) and (model.si_c>0):
-            W = {}
-            p_old = {}
-            for n, p in model.named_parameters():
-                if p.requires_grad:
-                    n = n.replace('.', '__')
-                    W[n] = p.data.clone().zero_()
-                    p_old[n] = p.data.clone()
+    
 
         # Find [active_classes]
         active_classes = None  # -> for Domain-IL scenario, always all classes are active
@@ -277,14 +252,9 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
                     replay_buffer.add(zip(x, y))
                 peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
 
-                # Update running parameter importance estimates in W
-                if isinstance(model, ContinualLearner) and (model.si_c>0):
-                    for n, p in model.named_parameters():
-                        if p.requires_grad:
-                            n = n.replace('.', '__')
-                            if p.grad is not None:
-                                W[n].add_(-p.grad*(p.detach()-p_old[n]))
-                            p_old[n] = p.detach().clone()
+                for loss_cb in loss_cbs:
+                    if loss_cb is not None:
+                        loss_cb(progress, batch_index, loss_dict, task=task)
 
             #---> Train GENERATOR
             if generator is not None and batch_index <= gen_iters:
@@ -294,6 +264,10 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
                 loss_dict = generator.train_a_batch(x, y, x_=x_, y_=y_, scores_=scores_, active_classes=active_classes,
                                                     task=task, rnt=1./task)
                 peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
+
+                for loss_cb in gen_loss_cbs:
+                    if loss_cb is not None:
+                        loss_cb(progress_gen, batch_index, loss_dict, task=task)
 
         if validation and valid_datasets: 
             v_precs = [evaluate.validate(
@@ -315,37 +289,6 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
         progress.close()
         if generator is not None:
             progress_gen.close()
-
-        # EWC: estimate Fisher Information matrix (FIM) and update term for quadratic penalty
-        if isinstance(model, ContinualLearner) and (model.ewc_lambda>0):
-            # -find allowed classes
-            allowed_classes = list(
-                range(classes_per_task*(task-1), classes_per_task*task)
-            ) if scenario=="task" else (list(range(classes_per_task*task)) if scenario=="class" else None)
-            # -if needed, apply correct task-specific mask
-            if model.mask_dict is not None:
-                model.apply_XdGmask(task=task)
-            # -estimate FI-matrix
-            model.estimate_fisher(training_dataset, allowed_classes=allowed_classes)
-
-        # SI: calculate and update the normalized path integral
-        if isinstance(model, ContinualLearner) and (model.si_c>0):
-            model.update_omega(W, model.epsilon)
-
-        # EXEMPLARS: update exemplar sets
-        if (add_exemplars or use_exemplars) or replay_mode=="exemplars":
-            exemplars_per_class = int(np.floor(model.memory_budget / (classes_per_task*task)))
-            # reduce examplar-sets
-            model.reduce_exemplar_sets(exemplars_per_class)
-            # for each new class trained on, construct examplar-set
-            new_classes = list(range(classes_per_task)) if scenario=="domain" else list(range(classes_per_task*(task-1),
-                                                                                              classes_per_task*task))
-            for class_id in new_classes:
-                # create new dataset containing only all examples of this class
-                class_dataset = SubDataset(original_dataset=train_dataset, sub_labels=[class_id])
-                # based on this dataset, construct new exemplar-set for this class
-                model.construct_exemplar_set(dataset=class_dataset, n=exemplars_per_class)
-            model.compute_means = True
 
         # REPLAY: update source for replay
         previous_model = copy.deepcopy(model).eval()

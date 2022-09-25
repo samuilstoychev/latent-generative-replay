@@ -32,6 +32,7 @@ from cl_metrics import MAC
 import gc
 import pickle
 from pretrained_root_classifier import PretrainedRootClassifier
+import callbacks as cb
 
 parser = argparse.ArgumentParser('./main.py', description='Run individual continual learning experiment.')
 parser.add_argument('--seed', type=int, default=0, help='random seed (for each random-module used)')
@@ -439,6 +440,9 @@ def run(args, verbose=False):
         # -generator
         if generator is not None:
             utils.print_model_info(generator, title="GENERATOR")
+    
+    generator_loss_cbs = [cb._VAE_loss_cb(tasks=args.tasks, iters_per_task=args.g_iters)] if train_gen else [None]
+    solver_loss_cbs = [cb._solver_loss_cb(tasks=args.tasks, iters_per_task=args.iters)]
 
     if args.latent_replay == "on":
         del model
@@ -467,8 +471,8 @@ def run(args, verbose=False):
             iters=args.iters, batch_size=args.batch,
             generator=generator, gen_iters=args.g_iters,
             buffer_size=args.buffer_size, valid_datasets=test_datasets if (args.early_stop or args.validation) else None, 
-            early_stop=args.early_stop, validation=args.validation,
-            plot=True
+            early_stop=args.early_stop, validation=args.validation, 
+            gen_loss_cbs=generator_loss_cbs, loss_cbs=solver_loss_cbs
         )
     else: 
         res = train_cl(
@@ -476,7 +480,8 @@ def run(args, verbose=False):
             iters=args.iters, batch_size=args.batch,
             generator=generator, gen_iters=args.g_iters,
             buffer_size=args.buffer_size, valid_datasets=test_datasets if (args.early_stop or args.validation) else None, 
-            early_stop=args.early_stop, validation=args.validation
+            early_stop=args.early_stop, validation=args.validation,
+            gen_loss_cbs=generator_loss_cbs, loss_cbs=solver_loss_cbs
         )
     if res is not None and args.validation: 
         # Store the validation data if required

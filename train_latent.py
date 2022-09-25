@@ -11,7 +11,8 @@ import evaluate_latent
 ramu = RAMU()
 
 def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenario="class",classes_per_task=None,iters=2000,batch_size=32,
-             generator=None, gen_iters=0, metric_cbs=list(), buffer_size=1000, valid_datasets=None, early_stop=False, validation=False, plot=False):
+             generator=None, gen_iters=0, metric_cbs=list(), buffer_size=1000, valid_datasets=None, early_stop=False, validation=False,
+             gen_loss_cbs=list(), loss_cbs=list()):
     
     peak_ramu = ramu.compute("TRAINING")
     valid_precs = []
@@ -190,6 +191,10 @@ def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenar
                     replay_buffer.add(zip(Rx, y))
                 peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
 
+                for loss_cb in loss_cbs:
+                    if loss_cb is not None:
+                        loss_cb(progress, batch_index, loss_dict, task=task)
+
             #---> Train GENERATOR
             # NOTE: Again, remember that batch_index goes up to max(iters, gen_iters). 
             # So, we only train the generator as many times as we need (and not more). 
@@ -202,6 +207,10 @@ def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenar
                 loss_dict = generator.train_a_batch(Rx, y, x_=Rx_, y_=y_, scores_=scores_, active_classes=active_classes,
                                                     task=task, rnt=1./task)
                 peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
+
+                for loss_cb in gen_loss_cbs:
+                    if loss_cb is not None:
+                        loss_cb(progress_gen, batch_index, loss_dict, task=task)
 
 
         
