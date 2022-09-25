@@ -17,7 +17,7 @@ def get_command(n_iterations, buffer_size):
         "--tasks=4", 
         "--network=cnn", 
         "--iters=" + n_iterations, 
-        "--lr=0.001", 
+        "--lr=0.0001", 
         "--batch=32", 
         "--latent-size=4096", 
         "--buffer-size=" + buffer_size, 
@@ -35,7 +35,7 @@ def run_experiments():
     os.chdir(timestamp)
 
     commands_to_run = []
-    for n_iterations in ["2000", "3000"]: 
+    for n_iterations in ["1000", "2000", "3000"]: 
         for buffer_size in ["200", "500", "1000", "1500"]: 
             for i in range(3): 
                 filename = n_iterations + "_" + buffer_size + "_" + str(i)

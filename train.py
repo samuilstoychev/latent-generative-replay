@@ -127,10 +127,6 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
                 x, y = next(data_loader)                                    #--> sample training data of current task
                 y = y-classes_per_task*(task-1) if scenario=="task" else y  #--> ITL: adjust y-targets to 'active range'
                 x, y = x.to(device), y.to(device)                           #--> transfer them to correct device
-                """To PLot latent representations"""
-                if batch_index == iters_to_use:
-                    np.savetxt('R_x_' + str(task) + '.txt', x.reshape(x.shape[0], -1).cpu().data.numpy())
-                    np.savetxt('R_x_labels_' + str(task) + '.txt', y.cpu().data.numpy())
                 # If --bce, --bce-distill & scenario=="class", calculate scores of current batch with previous model
                 binary_distillation = hasattr(model, "binaryCE") and model.binaryCE and model.binaryCE_distill
                 if binary_distillation and scenario=="class" and (previous_model is not None):
@@ -302,8 +298,6 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class",classes
             #                (classes_per_task * task):(classes_per_task * (task + 1))]
             _, temp_y_ = torch.max(all_scores_, dim=1)
 
-            np.savetxt('R_x_prime_' + str(task) + '.txt', R_x_prime.reshape(x.shape[0], -1).cpu().data.numpy())
-            np.savetxt('R_x_prime_labels_' + str(task) + '.txt', temp_y_.cpu().data.numpy())
         elif replay_mode == 'current':
             Current = True
         elif replay_mode in ('exemplars', 'exact'):

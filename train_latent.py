@@ -38,7 +38,6 @@ def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenar
         replay_buffer = ReplayBuffer(size=buffer_size, scenario=scenario)
 
     for task, train_dataset in enumerate(train_datasets, 1):
-        print("TASKKKK: ", task)
         prev_prec = 0.0
         peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
         
@@ -95,9 +94,6 @@ def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenar
             
             """To PLot latent representations"""
             Rx = root(x)
-            if batch_index == batch_iterations:
-                np.savetxt('R_x_' + str(task) + '.txt', Rx.cpu().data.numpy())
-                np.savetxt('R_x_labels_' + str(task) + '.txt', y.cpu().data.numpy())
             Rx = Rx.detach()
             Rx = Rx.to(device)
             peak_ramu = max(peak_ramu, ramu.compute("TRAINING"))
@@ -148,10 +144,6 @@ def train_cl_latent(model, train_datasets, root=None, replay_mode="none", scenar
                         _, temp_y_ = torch.max(temp_scores_, dim=1)
                         scores_.append(temp_scores_)
                         y_.append(temp_y_)
-                    if batch_index == batch_iterations:
-                        y_plot = y_
-                        np.savetxt('R_x_prime_' + str(task) + '.txt', Rx_.cpu().data.numpy())
-                        np.savetxt('R_x_prime_labels_' + str(task) + '.txt', y_plot[0].cpu().data.numpy())
 
                 # Only keep predicted y/scores if required (as otherwise unnecessary computations will be done)
                 y_ = y_ if (model.replay_targets == "hard") else None

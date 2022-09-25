@@ -16,7 +16,7 @@ def get_command(n_iterations, g_fc_uni):
         "--tasks=4", 
         "--network=cnn", 
         "--iters=" + n_iterations, 
-        "--lr=0.001", 
+        "--lr=0.0001", 
         "--batch=32", 
         "--latent-size=4096", 
         "--g-fc-uni=" + g_fc_uni, 
@@ -34,8 +34,8 @@ def run_experiments():
     os.chdir(timestamp)
 
     commands_to_run = []
-    for n_iterations in ["2000", "3000"]: 
-        for g_fc_uni in ["800", "3200", "12800"]: 
+    for n_iterations in ["1000", "2000", "3000"]: 
+        for g_fc_uni in ["800", "1600", "3200"]: 
             for i in range(3): 
                 filename = n_iterations + "_" + g_fc_uni + "_" + str(i)
                 cmd = get_command(n_iterations, g_fc_uni)

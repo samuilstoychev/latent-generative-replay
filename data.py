@@ -37,7 +37,7 @@ def get_dataset(name, type='train', download=True, capacity=None, permutation=No
     # load data-set
     if name == "ckplus": 
         dataset = dataset_class(
-            root='/homes/nc528/Desktop/Datasets/CKP/' + type,
+            root='<ADD_LOCAL_PATH_HERE>' + type,
             loader=lambda x: Image.open(x), 
             extensions=("png",),
             transform=dataset_transform, 
@@ -45,7 +45,7 @@ def get_dataset(name, type='train', download=True, capacity=None, permutation=No
         )
     elif name == "affectnet": 
         dataset = dataset_class(
-            root='/local/scratch/nc528/data/datasets/AffectNet_Separated/Confer_exp/affectnet_preprocessed_semi_balanced/downsampled/' + type,
+            root='<ADD_LOCAL_PATH_HERE>' + type,
             loader=lambda x: Image.open(x),
             extensions=("jpg",),
             transform=dataset_transform, 
@@ -53,14 +53,14 @@ def get_dataset(name, type='train', download=True, capacity=None, permutation=No
         )
     elif name == "rafdb":
         dataset = dataset_class(
-            root='/homes/nc528/Desktop/Datasets/RAFDB/' + type,
+            root='<ADD_LOCAL_PATH_HERE>' + type,
             loader=lambda x: Image.open(x),
             extensions=("jpg",),
             transform=dataset_transform,
             target_transform=target_transform
         )
     else:
-        dir = "../../../datasets"
+        dir = "<ADD_LOCAL_PATH_HERE>"
         dataset = dataset_class('{dir}/{name}'.format(dir=dir, name=data_name), train=False if type=='test' else True,
                             download=download, transform=dataset_transform, target_transform=target_transform)
 
