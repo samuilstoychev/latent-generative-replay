@@ -4,7 +4,7 @@ This repository includes the code for the experiments presented in *"Latent Gene
 
 ![s](https://i.ibb.co/Kx12GGL/compared-approaches-alt-gen-2.jpg)
 
-## Acknoledgments
+## Acknowledgments
 
 The implementation has been adapted using the original Continual Learning repository by van de Ven et al. ([available on GitHub](https://github.com/GMvandeVen/continual-learning)). 
 
